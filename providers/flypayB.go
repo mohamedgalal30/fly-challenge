@@ -13,6 +13,14 @@ type ProviderB struct {
 	Name string
 }
 
+type bScheme struct {
+	Value               float64 `json:"value"`
+	TransactionCurrency string  `json:"transactionCurrency"`
+	StatusCode          float64 `json:"statusCode"`
+	OrderInfo           string  `json:"orderInfo"`
+	PaymentID           string  `json:"paymentID"`
+}
+
 var bStatus = map[string]int{
 	"authorised": 100,
 	"decline":    200,
@@ -54,18 +62,16 @@ func (p ProviderB) Search(query *search.Query) ([]*search.Result, error) {
 	if amountMax != 0 {
 		jsonQuery.Where("value", "lte", amountMax)
 	}
-	transactions := jsonQuery.Get()
-	transactionsSlice, _ := transactions.([]interface{})
-
+	var transactionsSlice []bScheme
+	jsonQuery.Out(&transactionsSlice)
 	for _, transaction := range transactionsSlice {
-		t := transaction.(map[string]interface{})
 		results = append(results, &search.Result{
 			Provider:      "flypayB",
-			Amount:        t["value"].(float64),
-			Currency:      t["transactionCurrency"].(string),
-			StatusCode:    bStatusString[t["statusCode"].(float64)],
-			OrderID:       t["orderInfo"].(string),
-			TransactionID: t["paymentId"].(string),
+			Amount:        transaction.Value,
+			Currency:      transaction.TransactionCurrency,
+			StatusCode:    bStatusString[transaction.StatusCode],
+			OrderID:       transaction.OrderInfo,
+			TransactionID: transaction.PaymentID,
 		})
 	}
 	return results, nil

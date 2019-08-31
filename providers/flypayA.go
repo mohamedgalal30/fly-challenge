@@ -28,6 +28,14 @@ var aStatusString = map[float64]string{
 	3: "refunded",
 }
 
+type aScheme struct {
+	Amount         float64 `json:"amount"`
+	Currency       string  `json:"currency"`
+	StatusCode     float64 `json:"statusCode"`
+	OrderReference string  `json:"orderReference"`
+	TransactionID  string  `json:"transactionId"`
+}
+
 // init registers the provider with the program.
 func init() {
 	provider := ProviderA{"flaypayA"}
@@ -37,13 +45,13 @@ func init() {
 // Search looks at the document for the specified query.
 func (p ProviderA) Search(query *search.Query) ([]*search.Result, error) {
 	var results []*search.Result
-	jsonQuery := gojsonq.New().File(providerAData).From("transactions")
 
 	currency := query.Currency
 	statusCode := query.StatusCode
 	amountMin := query.AmountMin
 	amountMax := query.AmountMax
 
+	jsonQuery := gojsonq.New().File(providerAData).From("transactions")
 	if currency != "" {
 		jsonQuery.WhereEqual("currency", currency)
 	}
@@ -56,18 +64,17 @@ func (p ProviderA) Search(query *search.Query) ([]*search.Result, error) {
 	if amountMax != 0 {
 		jsonQuery.Where("amount", "lte", amountMax)
 	}
-	transactions := jsonQuery.Get()
-	transactionsSlice, _ := transactions.([]interface{})
+	var transactionsSlice []aScheme
+	jsonQuery.Out(&transactionsSlice)
 
 	for _, transaction := range transactionsSlice {
-		t := transaction.(map[string]interface{})
 		results = append(results, &search.Result{
 			Provider:      "flypayA",
-			Amount:        t["amount"].(float64),
-			Currency:      t["currency"].(string),
-			StatusCode:    aStatusString[t["statusCode"].(float64)],
-			OrderID:       t["orderReference"].(string),
-			TransactionID: t["transactionId"].(string),
+			Amount:        transaction.Amount,
+			Currency:      transaction.Currency,
+			StatusCode:    aStatusString[transaction.StatusCode],
+			OrderID:       transaction.OrderReference,
+			TransactionID: transaction.TransactionID,
 		})
 	}
 	return results, nil
