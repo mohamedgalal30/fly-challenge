@@ -1,6 +1,6 @@
 ## Start the App
 - To start the app just run ```docker-compose up```
-- After docker get everything ready, you can retrieve the payment transaction data from api ``` http://localhost:3000/api/payment/transaction```
+- After docker get everything ready, you can retrieve the payment transaction data from api http://localhost:3000/api/payment/transaction
 - As you see in the url, the app will be bounded on port 3000, so you need to get that port available.
 ## Testing
 To test the app just run ```docker exec -it fly-challenge go test ./... -v```
