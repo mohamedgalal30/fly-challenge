@@ -12,13 +12,13 @@ var Providers = make(map[string]Provider)
 type Query struct {
 	Provider   string
 	StatusCode string
-	AmountMin  int64
-	AmountMax  int64
+	AmountMin  float64
+	AmountMax  float64
 	Currency   string
 }
 
 // Run performs the search logic.
-func Run(query Query) []*Result {
+func Run(query *Query) []*Result {
 
 	// Create an unbuffered channel to receive match results to display.
 	results := make(chan *Result)

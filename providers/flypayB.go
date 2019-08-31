@@ -1,8 +1,6 @@
 package providers
 
 import (
-	// "fmt"
-	// "reflect"
 	"fly/search"
 
 	"github.com/thedevsaddam/gojsonq"
@@ -10,7 +8,10 @@ import (
 
 var providerBData = gopath + "/src/fly/data/flypayB.json"
 
-type bProvider struct{}
+// ProviderB supply search logic for flypayB provider
+type ProviderB struct {
+	Name string
+}
 
 var bStatus = map[string]int{
 	"authorised": 100,
@@ -26,12 +27,12 @@ var bStatusString = map[float64]string{
 
 // init registers the provider with the program.
 func init() {
-	var provider bProvider
+	var provider ProviderB
 	search.Register("flypayB", provider)
 }
 
 // Search looks at the document for the specified query.
-func (p bProvider) Search(query search.Query) ([]*search.Result, error) {
+func (p ProviderB) Search(query *search.Query) ([]*search.Result, error) {
 	var results []*search.Result
 
 	jsonQuery := gojsonq.New().File(providerBData).From("transactions")
@@ -68,4 +69,9 @@ func (p bProvider) Search(query search.Query) ([]*search.Result, error) {
 		})
 	}
 	return results, nil
+}
+
+// GetName of the provider
+func (p ProviderB) GetName() string {
+	return p.Name
 }

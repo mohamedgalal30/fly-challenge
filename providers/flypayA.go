@@ -12,7 +12,10 @@ import (
 var gopath = os.Getenv("GOPATH")
 var providerAData = gopath + "/src/fly/data/flypayA.json"
 
-type aProvider struct{}
+// ProviderA supply test logic for flypayA provider
+type ProviderA struct {
+	Name string
+}
 
 var aStatus = map[string]int{
 	"authorised": 1,
@@ -27,12 +30,12 @@ var aStatusString = map[float64]string{
 
 // init registers the provider with the program.
 func init() {
-	var provider aProvider
-	search.Register("flypayA", provider)
+	provider := ProviderA{"flaypayA"}
+	search.Register(provider.Name, provider)
 }
 
 // Search looks at the document for the specified query.
-func (p aProvider) Search(query search.Query) ([]*search.Result, error) {
+func (p ProviderA) Search(query *search.Query) ([]*search.Result, error) {
 	var results []*search.Result
 	jsonQuery := gojsonq.New().File(providerAData).From("transactions")
 
@@ -55,7 +58,7 @@ func (p aProvider) Search(query search.Query) ([]*search.Result, error) {
 	}
 	transactions := jsonQuery.Get()
 	transactionsSlice, _ := transactions.([]interface{})
-	// fmt.Println(reflect.TypeOf(transactionsSlice))
+
 	for _, transaction := range transactionsSlice {
 		t := transaction.(map[string]interface{})
 		results = append(results, &search.Result{
@@ -68,4 +71,9 @@ func (p aProvider) Search(query search.Query) ([]*search.Result, error) {
 		})
 	}
 	return results, nil
+}
+
+// GetName of the provider
+func (p ProviderA) GetName() string {
+	return p.Name
 }

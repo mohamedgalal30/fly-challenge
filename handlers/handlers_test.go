@@ -13,8 +13,8 @@ import (
 	"fly/search"
 )
 
-const checkMark = "\u2713"
-const ballotX = "\u2717"
+const checkMark = "\033[32m" + "\u2713" + "\033[39m"
+const ballotX = "\033[31m" + "\u2717" + "\033[39m"
 
 func init() {
 	handlers.Routes()

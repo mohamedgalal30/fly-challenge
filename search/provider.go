@@ -17,12 +17,13 @@ type Result struct {
 // Provider defines the behavior required by types that want
 // to implement a new search type.
 type Provider interface {
-	Search(query Query) ([]*Result, error)
+	GetName() string
+	Search(query *Query) ([]*Result, error)
 }
 
 // Match is launched as a goroutine for each individual transaction to run
 // searches concurrently.
-func Match(provider Provider, query Query, results chan<- *Result) {
+func Match(provider Provider, query *Query, results chan<- *Result) {
 	// Perform the search against the specified provider.
 	searchResults, err := provider.Search(query)
 	if err != nil {
