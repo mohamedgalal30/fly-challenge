@@ -35,8 +35,8 @@ var bStatusString = map[float64]string{
 
 // init registers the provider with the program.
 func init() {
-	var provider ProviderB
-	search.Register("flypayB", provider)
+	provider := ProviderB{"flypayB"}
+	search.Register(provider.Name, provider)
 }
 
 // Search looks at the document for the specified query.
@@ -66,7 +66,7 @@ func (p ProviderB) Search(query *search.Query) ([]*search.Result, error) {
 	jsonQuery.Out(&transactionsSlice)
 	for _, transaction := range transactionsSlice {
 		results = append(results, &search.Result{
-			Provider:      "flypayB",
+			Provider:      p.GetName(),
 			Amount:        transaction.Value,
 			Currency:      transaction.TransactionCurrency,
 			StatusCode:    bStatusString[transaction.StatusCode],

@@ -3,7 +3,6 @@ package providers
 import (
 	"os"
 
-	// "reflect"
 	"fly/search"
 
 	"github.com/thedevsaddam/gojsonq"
@@ -69,7 +68,7 @@ func (p ProviderA) Search(query *search.Query) ([]*search.Result, error) {
 
 	for _, transaction := range transactionsSlice {
 		results = append(results, &search.Result{
-			Provider:      "flypayA",
+			Provider:      p.GetName(),
 			Amount:        transaction.Amount,
 			Currency:      transaction.Currency,
 			StatusCode:    aStatusString[transaction.StatusCode],
