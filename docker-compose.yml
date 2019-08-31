@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  fly-challenge:
+    container_name: fly-challenge
+    build: .
+    command: go run main.go
+    volumes:
+      - .:/go/src/fly
+    working_dir: /go/src/fly
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000

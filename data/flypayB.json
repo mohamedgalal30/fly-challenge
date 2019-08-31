@@ -1,0 +1,46 @@
+{
+	"transactions":[
+	  {
+		"value":200,
+		"transactionCurrency":"AUD",
+		"statusCode":100,
+		"orderInfo":"2e58bd43-0051",
+		"paymentId": "flypay-b-0001"
+	  },
+	  {
+		"value":671,
+		"transactionCurrency":"AUD",
+		"statusCode":200,
+		"orderInfo":"2e58bd43-0052",
+		"paymentId": "flypay-b-0002"
+	  },
+	  {
+		"value":2000,
+		"transactionCurrency":"AUD",
+		"statusCode":300,
+		"orderInfo":"2e58bd43-0053",
+		"paymentId": "flypay-b-0003"
+	  },
+	  {
+		"value":80000,
+		"transactionCurrency":"AUD",
+		"statusCode":100,
+		"orderInfo":"2e58bd43-0054",
+		"paymentId": "flypay-b-0004"
+	  },
+	  {
+		"value":6710,
+		"transactionCurrency":"AUD",
+		"statusCode":200,
+		"orderInfo":"2e58bd43-0055",
+		"paymentId": "flypay-b-0005"
+	  },
+	  {
+		"value":400,
+		"transactionCurrency":"AUD",
+		"statusCode":300,
+		"orderInfo":"2e58bd43-0056",
+		"paymentId": "flypay-b-0006"
+	  }
+	]
+  }
