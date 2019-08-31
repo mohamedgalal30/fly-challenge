@@ -1,5 +1,3 @@
-// Sample test to show how to test the execution of an
-// internal endpoint.
 package handlers_test
 
 import (

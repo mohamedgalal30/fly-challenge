@@ -23,6 +23,7 @@ func TestFlypayASearch(t *testing.T) {
 			"refunded":   3,
 		}
 		testFilterTransactionsByStatus(t, provider, &statusTransactionsNum)
+
 		transactionsNum := []int{6, 4, 3}
 		testCombinedFilterTransactions(t, provider, &transactionsNum)
 	}
@@ -40,6 +41,7 @@ func TestFlypayBSearch(t *testing.T) {
 			"refunded":   2,
 		}
 		testFilterTransactionsByStatus(t, provider, &statusTransactionsNum)
+
 		transactionsNum := []int{2, 1, 2}
 		testCombinedFilterTransactions(t, provider, &transactionsNum)
 	}
